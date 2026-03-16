@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& v) {
+        int n =numCourses;
+        vector<int>inorder(n,0);
+        vector<vector<int>>adj(n);
+          for(auto x: v){
+           adj[x[0]].push_back(x[1]);
+           inorder[x[1]]++;
+          }
+          queue<int>q;
+          vector<int>topo;
+          for(int i=0;i<n;i++) if(!inorder[i]) q.push(i);
+          while(!q.empty()){
+            int node=q.front();
+            topo.push_back(node);
+            q.pop();
+            for(auto child:adj[node]){
+                inorder[child]--;
+                if(inorder[child]==0)q.push(child);
+
+            }
+          }
+           return (topo.size()==n);
+    }
+};
